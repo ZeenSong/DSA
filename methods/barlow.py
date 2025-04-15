@@ -3,7 +3,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from .base import BaseMethod
-from .identifylay import IdentifyLay, weight_contrastive_loss
+from .dsa import DSA, weight_contrastive_loss
 
 
 def off_diagonal(x):
@@ -36,7 +36,7 @@ class BarlowTwins(BaseMethod):
 class BarlowTwinsPlus(BarlowTwins):
     def __init__(self, cfg):
         super().__init__(cfg)
-        self.good_struct = IdentifyLay(cfg)
+        self.good_struct = DSA(cfg)
         self.lambda1 = cfg.lambda1
         self.lambda2 = cfg.lambda2
         self.loss_weight = partial(weight_contrastive_loss, tau=cfg.temperature, norm=cfg.norm)
